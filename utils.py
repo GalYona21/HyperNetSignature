@@ -585,11 +585,11 @@ def write_psnr(pred_img, gt_img, writer, iter, prefix):
         p = np.clip(p, a_min=0., a_max=1.)
 
         trgt = (trgt / 2.) + 0.5
-        ssim_value = skimage.metrics.structural_similarity(p, trgt, multichannel=True, data_range=1)
+        ssim_value = skimage.metrics.structural_similarity(p, trgt, multichannel=True, data_range=1, channel_axis=2)
 
         # ssim = skimage.measure.compare_ssim(p, trgt, multichannel=True, data_range=1)
         # psnr = skimage.measure.compare_psnr(p, trgt, data_range=1)
-        # psnr_value = psnr(p, trgt, data_range=1)
+        psnr_value = psnr(p, trgt, data_range=1)
 
         psnrs.append(psnr)
         ssims.append(ssim)
