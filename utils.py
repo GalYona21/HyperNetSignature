@@ -591,8 +591,8 @@ def write_psnr(pred_img, gt_img, writer, iter, prefix):
         # psnr = skimage.measure.compare_psnr(p, trgt, data_range=1)
         psnr_value = psnr(p, trgt, data_range=1)
 
-        psnrs.append(psnr)
-        ssims.append(ssim)
+        psnrs.append(psnr_value)
+        ssims.append(ssim_value)
 
     writer.add_scalar(prefix + "psnr", np.mean(psnrs), iter)
     writer.add_scalar(prefix + "ssim", np.mean(ssims), iter)
