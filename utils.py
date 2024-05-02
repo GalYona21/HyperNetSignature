@@ -11,6 +11,9 @@ import meta_modules
 import scipy.io.wavfile as wavfile
 import cmapy
 
+from skimage.metrics import structural_similarity as ssim
+from skimage.metrics import peak_signal_noise_ratio as psnr
+
 
 def cond_mkdir(path):
     if not os.path.exists(path):
@@ -582,12 +585,14 @@ def write_psnr(pred_img, gt_img, writer, iter, prefix):
         p = np.clip(p, a_min=0., a_max=1.)
 
         trgt = (trgt / 2.) + 0.5
+        ssim_value = ssim(p, trgt, multichannel=True, data_range=1)
 
-        ssim = skimage.measure.compare_ssim(p, trgt, multichannel=True, data_range=1)
-        psnr = skimage.measure.compare_psnr(p, trgt, data_range=1)
+        # ssim = skimage.measure.compare_ssim(p, trgt, multichannel=True, data_range=1)
+        # psnr = skimage.measure.compare_psnr(p, trgt, data_range=1)
+        psnr_value = psnr(p, trgt, data_range=1)
 
-        psnrs.append(psnr)
-        ssims.append(ssim)
+        psnrs.append(psnr_value)
+        ssims.append(ssim_value)
 
     writer.add_scalar(prefix + "psnr", np.mean(psnrs), iter)
     writer.add_scalar(prefix + "ssim", np.mean(ssims), iter)
