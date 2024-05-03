@@ -580,7 +580,6 @@ def write_psnr(pred_img, gt_img, writer, iter, prefix):
     for i in range(batch_size):
         p = pred_img[i].transpose(1, 2, 0)
         trgt = gt_img[i].transpose(1, 2, 0)
-        print(p.shape, trgt.shape)
         p = (p / 2.) + 0.5
         p = np.clip(p, a_min=0., a_max=1.)
 
@@ -590,7 +589,7 @@ def write_psnr(pred_img, gt_img, writer, iter, prefix):
         # ssim = skimage.measure.compare_ssim(p, trgt, multichannel=True, data_range=1)
         # psnr = skimage.measure.compare_psnr(p, trgt, data_range=1)
         psnr_value = psnr(p, trgt, data_range=1)
-
+        print(psnr_value)
         psnrs.append(psnr_value)
         ssims.append(ssim_value)
 
